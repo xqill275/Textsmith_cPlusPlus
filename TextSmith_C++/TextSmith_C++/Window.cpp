@@ -47,8 +47,11 @@ Window::Window()
 	wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);     // NOTE: Uses default arrow cursor
 	wndClass.lpfnWndProc = WindowProc;                  // Entry point for handling all messages
 
-	// FIXME: No error checking for RegisterClass. Add handling if registration fails.
-	RegisterClass(&wndClass);
+	
+	if (!RegisterClass(&wndClass)) {
+		MessageBox(NULL, L"Window class registration failed!", L"Error", MB_ICONERROR);
+		return;
+	}
 
 	// Define window style flags (caption, minimize button, system menu)
 	DWORD style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
@@ -80,8 +83,10 @@ Window::Window()
 		m_hInstance,             // App instance
 		NULL                     // No extra parameters
 	);
-
-	// HACK: No error handling here if m_hWnd is null. Add checks in production.
+	if (m_hWnd == NULL) {
+		MessageBox(NULL, L"Window creation failed!", L"Error", MB_ICONERROR);
+		return;
+	}
 	ShowWindow(m_hWnd, SW_SHOW); // Makes the window visible on screen
 }
 
