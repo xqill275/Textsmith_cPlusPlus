@@ -1,25 +1,35 @@
+# Makefile for TextSmith C++ project
+
 # Compiler
 CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Iinclude
 
-# Compiler flags
-CXXFLAGS = -std=c++17 -Wall -I./src/header
+# Directories
+SRC_DIR = src
+INC_DIR = include
+BUILD_DIR = build/textsmith
 
 # Source files
-SRC = src/main.cpp src/TextSmithEngine.cpp
+SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 
-# Output
-OUT = build/textsmith
+# Executable
+TARGET = $(BUILD_DIR)/textsmith
 
 # Default target
-all: $(OUT)
+all: $(TARGET)
 
-# Build rule
-$(OUT): $(SRC)
-	@mkdir -p build
-	$(CXX) $(CXXFLAGS) -o $(OUT) $(SRC)
+# Link the final binary
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
-# Clean rule
+# Compile source files to object files
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Clean build files
 clean:
-	rm -f $(OUT)
+	rm -rf $(BUILD_DIR)
 
 .PHONY: all clean
