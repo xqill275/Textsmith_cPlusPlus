@@ -1,6 +1,8 @@
 #pragma once
 #include <TextSmith/Room.h>
 #include <TextSmith/Player.h>
+#include <TextSmith/CommandParser.h>
+#include <TextSmith/InputHandler.h>
 #include <string>
 #include <vector>
 #include <map>
@@ -19,6 +21,9 @@ class TextSmithEngine {
   std::vector<Room> RoomIdArray;
 
   Player assignedPlayer;
+  CommandParser commandParser;
+  InputHandler inputHandler;
+
 };
 
 

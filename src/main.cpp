@@ -6,7 +6,8 @@
 
 void setupRooms(TextSmithEngine& engine){
     Room testRoom("Test Room", "this is a room to test some things");
-    std::vector<Room> RoomArray = {testRoom};
+    Room testRoom2("Test room 2", "this is too see if i can do mutiple rooms");
+    std::vector<Room> RoomArray = {testRoom, testRoom2};
     engine.setUpRooms(RoomArray);
 }
 
@@ -21,18 +22,9 @@ int main() {
     engine.startStopGame(); // This sets IsRunning to true
 
     while (engine.IsRunning) {
-        if (!engine.RoomIdArray.empty()) {
-            std::cout << "Room Name: " << engine.RoomIdArray[0].getName() << std::endl;
-        } else {
-            std::cout << "No rooms available!" << std::endl;
-        }
-        
-        std::cout << "Game: " << engine.GameName << " | Loop: " << gameLoopTest << std::endl;
-
-        if (gameLoopTest == 10) {
-            engine.startStopGame(); // This sets IsRunning to false, breaking the loop
-        }
-        gameLoopTest += 1;
+        std::cout << "please enter a command! \n";
+        std::string command = engine.inputHandler.getInput<std::string>("Command: ");
+        engine.commandParser.parseCommand(command);
     }
 
     std::cout << "Game loop ended." << std::endl;
