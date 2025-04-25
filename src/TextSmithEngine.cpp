@@ -23,3 +23,4 @@ void TextSmithEngine::setUpRooms(const std::vector<Room>& RoomArray) {
 void TextSmithEngine::assignPlayer(Player& PlayerObject) {
     assignedPlayer = PlayerObject;
 }
+

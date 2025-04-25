@@ -28,6 +28,9 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+run: all
+	$(TARGET)
+
 # Clean build files
 clean:
 	rm -rf $(BUILD_DIR)
