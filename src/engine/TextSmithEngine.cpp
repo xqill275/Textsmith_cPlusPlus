@@ -11,6 +11,7 @@ TextSmithEngine::TextSmithEngine(std::string gameName) {
     allowedCommands["move"] = &TextSmithEngine::move;
     allowedCommands["look"] = &TextSmithEngine::look;
     allowedCommands["exit"] = &TextSmithEngine::exit;
+    allowedCommands["inventory"] = &TextSmithEngine::inventory;
 }
 
 void TextSmithEngine::init() {
@@ -51,6 +52,7 @@ void TextSmithEngine::help() {
 }
 
 void TextSmithEngine::move() {
+    triggerOnMoveStart();
     std::vector<std::string> directionLabels = {"north", "east", "south", "west"};
     int currentPlayerLocation = this->assignedPlayer.getRoomID();
     std::vector<Room> directionArray = this->RoomIdArray[currentPlayerLocation].getDirectionArray();
@@ -77,6 +79,7 @@ void TextSmithEngine::move() {
             }
 
             if (RoomIndex != -1) {
+                triggerOnMove();
                 this->assignedPlayer.setRoomID(RoomIndex);
                 std::cout << "You moved to " << RoomTarget.getName() << "!\n";
             } else {
@@ -88,6 +91,23 @@ void TextSmithEngine::move() {
         }
     } else {
         std::cout << "That is not a valid location.\n";
+    }
+    triggerOnMoveFinish();
+}
+
+void TextSmithEngine::inventory() {
+    std::vector<Item> playerInv = this->assignedPlayer.getInventory();
+    // loop over inventory
+    std::cout << this->assignedPlayer.getPlayerName() <<" Inventory: \n";
+    for (int i = 0; i < playerInv.size(); i++) {
+        std::cout << playerInv[i].getName() << "- " << playerInv[i].getDescription() <<  "\n";
+    }
+}
+
+void TextSmithEngine::exit() {
+    if (IsRunning) {
+        startStopGame();
+        std::exit(0);
     }
 }
 
@@ -105,9 +125,13 @@ void TextSmithEngine::triggerOnFinish() {
     if (onFinish) { onFinish(); }
 }
 
-void TextSmithEngine::exit() {
-    if (IsRunning) {
-        startStopGame();
-        std::exit(0);
-    }
+
+void TextSmithEngine::triggerOnMoveStart() {
+    if (onMoveStart) { onMoveStart(); }
+}
+void TextSmithEngine::triggerOnMove() {
+    if (onMove) { onMove(); }
+}
+void TextSmithEngine::triggerOnMoveFinish() {
+    if (onMoveFinish) {onMoveFinish();}
 }

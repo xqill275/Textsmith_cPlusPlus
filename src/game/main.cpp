@@ -16,7 +16,9 @@ void setupRooms(TextSmithEngine& engine){
 int main() {
     int gameLoopTest = 0;
     TextSmithEngine engine("TestGame");
+    Item TestItem("TestItem", "this is a test item", 10);
     Player p1;
+    p1.addToInventory(TestItem);
     engine.init();
     setupRooms(engine);
     engine.assignPlayer(p1);

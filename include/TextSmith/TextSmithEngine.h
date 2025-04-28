@@ -2,6 +2,7 @@
 #include <TextSmith/Room.h>
 #include <TextSmith/Player.h>
 #include <TextSmith/InputHandler.h>
+#include <TextSmith/Item.h>
 #include <string>
 #include <vector>
 #include <map>
@@ -30,16 +31,23 @@ class TextSmithEngine {
     void move();
     void look();
     void exit();
+    void inventory();
 
 
     //hooks
     // Hooks
     std::function<void()> onStart;
     std::function<void()> onFinish;
+    std::function<void()> onMoveStart;
+    std::function<void()> onMove;
+    std::function<void()> onMoveFinish;
     
     // New helper functions
     void triggerOnStart();
     void triggerOnFinish();
+    void triggerOnMoveStart();
+    void triggerOnMove();
+    void triggerOnMoveFinish();
 
 };
 
