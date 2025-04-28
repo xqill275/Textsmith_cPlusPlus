@@ -1,0 +1,31 @@
+```
+└── 📁Textsmith_cPlusPlus
+    └── 📁build
+        └── 📁lib
+            └── libtextsmith.a
+        └── 📁obj
+            └── 📁engine
+                └── Player.o
+                └── Room.o
+                └── TextSmithEngine.o
+            └── 📁game
+                └── main.o
+        └── textsmith
+    └── 📁include
+        └── 📁TextSmith
+            └── InputHandler.h
+            └── Player.h
+            └── Room.h
+            └── TextSmith.h
+            └── TextSmithEngine.h
+    └── 📁src
+        └── 📁engine
+            └── Player.cpp
+            └── Room.cpp
+            └── TextSmithEngine.cpp
+        └── 📁game
+            └── main.cpp
+    └── .gitignore
+    └── makefile
+    └── README.md
+```

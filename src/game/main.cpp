@@ -21,6 +21,18 @@ int main() {
     setupRooms(engine);
     engine.assignPlayer(p1);
     std::cout << "Initial state: " << engine.IsRunning << std::endl;
+
+    engine.onStart = []() {
+        int count = 10;
+        for (int i = 0; i < count; i++) {
+            std::cout << "==== on start hook ==== \n";
+        }
+    };
+
+    engine.onFinish = []() {
+        std::cout << "==== on finish hook ==== \n";
+    };
+
     engine.startStopGame(); // This sets IsRunning to true
 
     while (engine.IsRunning) {

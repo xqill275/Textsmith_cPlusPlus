@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <functional>
 
 class TextSmithEngine {
   public:
@@ -28,6 +29,17 @@ class TextSmithEngine {
     void help();
     void move();
     void look();
+    void exit();
+
+
+    //hooks
+    // Hooks
+    std::function<void()> onStart;
+    std::function<void()> onFinish;
+    
+    // New helper functions
+    void triggerOnStart();
+    void triggerOnFinish();
 
 };
 
