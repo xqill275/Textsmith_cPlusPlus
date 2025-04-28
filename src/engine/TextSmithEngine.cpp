@@ -10,6 +10,7 @@ TextSmithEngine::TextSmithEngine(std::string gameName) {
     allowedCommands["help"] = &TextSmithEngine::help;
     allowedCommands["move"] = &TextSmithEngine::move;
     allowedCommands["look"] = &TextSmithEngine::look;
+    allowedCommands["exit"] = &TextSmithEngine::exit;
 }
 
 void TextSmithEngine::init() {
@@ -18,6 +19,11 @@ void TextSmithEngine::init() {
 
 void TextSmithEngine::startStopGame() {
     IsRunning = !IsRunning;
+    if (IsRunning) {
+        triggerOnStart();
+    } else {
+        triggerOnFinish();
+    }
 }
 
 void TextSmithEngine::setUpRooms(const std::vector<Room>& RoomArray) {
@@ -89,4 +95,19 @@ void TextSmithEngine::look() {
     int playerLocation = this->assignedPlayer.getRoomID();
     std::string description = this->RoomIdArray[playerLocation].getDescription();
     std::cout << description;
+}
+
+void TextSmithEngine::triggerOnStart() {
+    if (onStart) { onStart(); }
+}
+
+void TextSmithEngine::triggerOnFinish() {
+    if (onFinish) { onFinish(); }
+}
+
+void TextSmithEngine::exit() {
+    if (IsRunning) {
+        startStopGame();
+        std::exit(0);
+    }
 }
