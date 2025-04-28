@@ -1,38 +1,52 @@
-# Makefile for TextSmith C++ project
-
-# Compiler
+# Compiler and flags
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Iinclude
 
 # Directories
-SRC_DIR = src
-INC_DIR = include
-BUILD_DIR = build/textsmith
+ENGINE_SRC_DIR = src/engine
+GAME_SRC_DIR = src/game
+BUILD_DIR = build
+LIB_DIR = $(BUILD_DIR)/lib
+OBJ_DIR = $(BUILD_DIR)/obj
 
-# Source files
-SRCS := $(wildcard $(SRC_DIR)/*.cpp)
-OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+# Files
+ENGINE_SRCS := $(wildcard $(ENGINE_SRC_DIR)/*.cpp)
+ENGINE_OBJS := $(patsubst $(ENGINE_SRC_DIR)/%.cpp, $(OBJ_DIR)/engine/%.o, $(ENGINE_SRCS))
+GAME_SRC := $(GAME_SRC_DIR)/main.cpp
+GAME_OBJ := $(OBJ_DIR)/game/main.o
 
-# Executable
+# Targets
+STATIC_LIB = $(LIB_DIR)/libtextsmith.a
 TARGET = $(BUILD_DIR)/textsmith
 
 # Default target
 all: $(TARGET)
 
-# Link the final binary
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+# Link game with engine library
+$(TARGET): $(GAME_OBJ) $(STATIC_LIB)
+	$(CXX) $(CXXFLAGS) -o $@ $^ 
 
-# Compile source files to object files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(BUILD_DIR)
+# Build engine static library
+$(STATIC_LIB): $(ENGINE_OBJS)
+	@mkdir -p $(LIB_DIR)
+	ar rcs $@ $^
+
+# Compile engine source files
+$(OBJ_DIR)/engine/%.o: $(ENGINE_SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Compile game source
+$(OBJ_DIR)/game/%.o: $(GAME_SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Run the game
 run: all
 	$(TARGET)
 
-# Clean build files
+# Clean all build files
 clean:
 	rm -rf $(BUILD_DIR)
 
-.PHONY: all clean
+.PHONY: all clean run

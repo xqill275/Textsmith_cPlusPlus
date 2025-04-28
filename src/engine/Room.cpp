@@ -14,4 +14,15 @@ std::string Room::getName() {
     return this -> Name;
 }
 
+void Room::setDirectionArray(std::vector<Room> newDirectionArray) {
+    DirectionArray = newDirectionArray;
+}
+
+void Room::insertDirectionArray(int index, Room& room) {
+    DirectionArray[index] = room;
+}
+std::vector<Room> Room::getDirectionArray() {
+    return DirectionArray;
+}
+
 

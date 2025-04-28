@@ -7,9 +7,12 @@ class Player {
     Player();
 
     void setPlayerName(std::string newName);
+    void setRoomID(int newID);
+    int getRoomID();
     std::string getPlayerName();
 
 
-    std::string PlayerName;
 
+    std::string PlayerName;
+    int CurrentRoomID = 0;
 };
